@@ -1,0 +1,9 @@
+python3 -m pip install _______
+
+
+export FLASK_APP=app.py
+export FLASK_ENV=development
+. venv/bin/activate
+
+
+mysql -u root -p < apidb.sql
