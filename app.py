@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, jsonify, make_response, json
+from flask import Flask, render_template, request, jsonify, make_response, json, session
 from pusher import pusher
+from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 
@@ -16,6 +17,15 @@ name = ''
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+# will be the first page to load, if not logged in this will display, nothing else
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 @app.route('/play')
 def play():
