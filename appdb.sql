@@ -22,5 +22,6 @@ CREATE TABLE `Stats` (
   `losses` int(11) NOT NULL,
   `winStreak` int(11) NOT NULL,
   `lossStreak` int(11) NOT NULL,
+  PRIMARY KEY(`id`),
   FOREIGN KEY (`user_id`) REFERENCES Users(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;

@@ -13,13 +13,23 @@
     <h1>Register:</h1>
     <form method="post">
       <div class="regInput">
-        <label for="userName">User Name</label>
+        <label for="userName">User Name:</label>
         <input name="userName" id="userName" value="{{ request.form['userName'] }}" required />
+        <div class="errorMessage">
+          {% if error %}
+          <p class="error">{{ error }}</p>
+          {% endif %}
+        </div>
       </div>
 
       <div class="regInput">
-        <label for="password">Password</label>
+        <label for="password">Password:</label>
         <input name="password" id="password" value="{{ request.form['password'] }}" required />
+      </div>
+
+      <div class="regInput">
+        <label for="name">Name:</label>
+        <input name="name" id="name" value="{{ request.form['name'] }}" required />
       </div>
 
       <input type="submit" value="Register"/>
