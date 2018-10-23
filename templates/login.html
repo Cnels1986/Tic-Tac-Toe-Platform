@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-  <title>Login - 3T Platform</title>
+  <title>Login - T3 Platform</title>
   <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
@@ -15,11 +15,21 @@
       <div class="regInput">
         <label for="userName">User Name:</label>
         <input name="userName" id="userName" value="{{ request.form['userName'] }}" required />
+        <div class="errorMessage">
+          {% if errorName %}
+          <p class="error">{{ errorName }}</p>
+          {% endif %}
+        </div>
       </div>
 
       <div class="regInput">
         <label for="password">Password:</label>
         <input name="password" id="password" value="{{ request.form['password'] }}" required />
+        <div class="errorMessage">
+          {% if errorPass %}
+          <p class="error">{{ errorPass }}</p>
+          {% endif %}
+        </div>
       </div>
 
       <input type="submit" value="Login"/>

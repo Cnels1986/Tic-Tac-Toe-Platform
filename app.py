@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response, json, session, flash
 from pusher import pusher
 from flaskext.mysql import MySQL
+from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
 mysql = MySQL()
@@ -38,7 +39,7 @@ def register():
     if request.method == "POST":
         # retrieves input from the register form
         username = request.form["userName"]
-        password = request.form["password"]
+        password = sha256_crypt.encrypt(str(request.form["password"]))
         name = request.form["name"]
 
         # Queries database to see if the username already exists, they must be unique
@@ -51,14 +52,11 @@ def register():
             cursor.execute("INSERT INTO Users(userName, password) VALUES('{}','{}')".format(username, password))
             conn.commit()
 
-            userID = cursor.execute("SELECT id FROM Users WHERE userName = '{}'".format(username))
+            cursor.execute("SELECT * FROM Users WHERE userName = '{}'".format(username))
+            userID = cursor.fetchone();
 
-            cursor.execute("INSERT INTO Stats(user_id, name, wins, losses, winStreak, lossStreak) VALUES('{}','{}','{}','{}','{}','{}')".format(userID, name, 0, 0, 0, 0))
+            cursor.execute("INSERT INTO Stats(user_id, name, wins, losses, winStreak, lossStreak) VALUES('{}','{}','{}','{}','{}','{}')".format(userID[0], name, 0, 0, 0, 0))
             conn.commit()
-            # print(test)
-            # cursor.execute("DELETE FROM Users WHERE userName = '{}'".format(username))
-            # conn.commit()
-
         else:
             error = "Username already exists"
 
@@ -67,9 +65,29 @@ def register():
 #####################
 
 # will be the first page to load, if not logged in this will display, nothing else
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    errorName = None
+    errorPass = None
+    if request.method == "POST":
+        # retrieves input from the login form
+        username = request.form["userName"]
+        password = request.form["password"]
+
+        cursor.execute("SELECT * FROM Users WHERE userName = '{}'".format(username))
+        # retrieves hashed password from the Users table
+        user = cursor.fetchone();
+
+        # user name does not exist within the Users table
+        if user == None:
+            errorName = "Username does not exist"
+        else:
+            if sha256_crypt.verify(request.form["password"], user[2]):
+                print("Passwords match")
+            else:
+                errorPass = "Incorrect password"
+
+    return render_template('login.html', errorName=errorName, errorPass=errorPass)
 
 #####################
 

@@ -8,9 +8,9 @@ DROP TABLE IF EXISTS `stats`;
 CREATE TABLE `Users` (
   `id` int(11) NOT NULL AUTO_INCREMENT UNIQUE,
   `userName` varchar(45) NOT NULL UNIQUE,
-  `password` varchar(45) NOT NULL,
+  `password` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- table that will store all of the stat information, and be linked to the login table through the id
@@ -24,4 +24,4 @@ CREATE TABLE `Stats` (
   `lossStreak` int(11) NOT NULL,
   PRIMARY KEY(`id`),
   FOREIGN KEY (`user_id`) REFERENCES Users(`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
