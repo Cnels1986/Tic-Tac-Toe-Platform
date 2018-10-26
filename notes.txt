@@ -7,3 +7,9 @@ export FLASK_ENV=development
 
 
 mysql -u root -p < apidb.sql
+
+
+font-family: 'Roboto', sans-serif;
+
+
+mysql.server start
